@@ -43,6 +43,15 @@ def main() -> None:
             raise SystemExit(f"line {i} must not start or end with whitespace")
         if not line.endswith(".") or line.count(".") != 1:
             raise SystemExit(f"line {i} must be exactly one sentence")
+    # Two-line contract, not just the char gate: line 1 must name the
+    # everyday thing it explains, and line 2 must name both what the
+    # analogy maps and what it leaves out, or the pair fails its brief.
+    if "traffic jam" not in LINE_1:
+        raise SystemExit("line 1 must name the everyday thing it explains")
+    if "maps" not in LINE_2 or "leaves out" not in LINE_2:
+        raise SystemExit(
+            "line 2 must name what the analogy maps and what it leaves out"
+        )
     out_dir = Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "/output"))
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "entry.txt").write_text(TEXT, encoding="utf-8")
